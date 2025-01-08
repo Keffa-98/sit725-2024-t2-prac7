@@ -2,8 +2,12 @@ const express = require("express");
 const nunjucks = require("nunjucks");
 const catRoutes = require("./routes/cats.routes.js");
 const indexRoutes = require("./routes/index.routes.js");
+const http = require('http')
+const {Server} = require("socket.io")
 
 const app = express();
+const server = http.createServer(app)
+const io = new Server(server)
 
 nunjucks.configure("views", {
   autoescape: true,
@@ -28,8 +32,18 @@ app.get("/addTwoNumbers/:firstNumber/:secondNumber", function (req, res, next) {
 app.use("/", indexRoutes);
 app.use("/api/cats", catRoutes);
 
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+  setInterval(() => {
+    socket.emit("number", parseInt(Math.random() * 10));
+  }, 1000);
+});
+
 const port = process.env.PORT || 3000;
 
-app.listen(port, async () => {
+server.listen(port, async () => {
   console.log(`App is listening on port ${port}`);
 });

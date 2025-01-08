@@ -1,4 +1,7 @@
-
+let socket = io("http://localhost:3000");
+socket.on("number", (msg) => {
+  console.log("Random number: " + msg);
+});
 
 const getCats = () => {
   $.get("/api/cats", (response) => {
@@ -8,7 +11,6 @@ const getCats = () => {
     }
   });
 };
-
 
 const submitForm = () => {
   let formData = {};
@@ -23,43 +25,42 @@ const submitForm = () => {
     data: formData,
     dataType: "json",
     success: function (response) {
-      console.log("Status code: ",response.statusCode);
-      console.log({response});
-      if (response.statusCode ===201) { 
+      console.log("Status code: ", response.statusCode);
+      console.log({ response });
+      if (response.statusCode === 201) {
         $(".modal").modal();
-        window.alert(response.message)
-        addCard(formData)
+        window.alert(response.message);
+        addCard(formData);
       }
     },
   });
 };
 
-const addCard = (item)=>{
+const addCard = (item) => {
   let itemToAppend =
-      '<div class="col s4 center-align">' +
-      '<div class="card medium"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' +
-      item.image +
-      '">' +
-      '</div><div class="card-content">' +
-      '<span class="card-title activator grey-text text-darken-4">' +
-      item.title +
-      '<i class="material-icons right">more_vert</i></span><p><a href="#">' +
-      item.link +
-      "</a></p></div>" +
-      '<div class="card-reveal">' +
-      '<span class="card-title grey-text text-darken-4">' +
-      item.title +
-      '<i class="material-icons right">close</i></span>' +
-      '<p class="card-text black-text">' +
-      item.description +
-      "</p>" +
-      "</div></div></div>";
-    $("#card-section").append(itemToAppend);
-}
+    '<div class="col s4 center-align">' +
+    '<div class="card medium"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' +
+    item.image +
+    '">' +
+    '</div><div class="card-content">' +
+    '<span class="card-title activator grey-text text-darken-4">' +
+    item.title +
+    '<i class="material-icons right">more_vert</i></span><p><a href="#">' +
+    item.link +
+    "</a></p></div>" +
+    '<div class="card-reveal">' +
+    '<span class="card-title grey-text text-darken-4">' +
+    item.title +
+    '<i class="material-icons right">close</i></span>' +
+    '<p class="card-text black-text">' +
+    item.description +
+    "</p>" +
+    "</div></div></div>";
+  $("#card-section").append(itemToAppend);
+};
 const addCards = (items) => {
   items.forEach((item) => {
-    addCard(item)
-    
+    addCard(item);
   });
 };
 $(document).ready(function () {
@@ -67,6 +68,6 @@ $(document).ready(function () {
   $("#formSubmit").click(() => {
     submitForm();
   });
-  getCats()
+  getCats();
   $(".modal").modal();
 });
