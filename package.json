@@ -1,0 +1,17 @@
+{
+  "name": "sit725-2024-t2-prac5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0",
+    "nunjucks": "^3.2.4"
+  }
+}
